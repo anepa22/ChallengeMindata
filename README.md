@@ -1,0 +1,2 @@
+# ChallengeMindata
+Challenge para Mindata
