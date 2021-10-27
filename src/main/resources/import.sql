@@ -1,0 +1,1 @@
+INSERT INTO SUPER_HEROE(id, flying, money, name, strength) VALUES  (1, 1, 200, 'Superman', 100000), (2, 0, 80000000, 'Batman', 500), (3, 0, 5, 'Pepe Pompin', 2);
