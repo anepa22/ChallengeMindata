@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,15 +31,22 @@ public class SuperHeroe implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
 	private Integer id;
+	
 	@Column
 	@NotBlank
 	@NotNull
+	@Size(min = 3, max = 20)
 	private String name;
+
 	@Column
 	private Integer strength;
+	
 	@Column
+	@NotNull
 	private Boolean flying;
+	
 	@Column
 	private Double money;
 

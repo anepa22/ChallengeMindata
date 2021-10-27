@@ -7,11 +7,13 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mindata.challenge.entity.SuperHeroe;
 import com.mindata.challenge.repository.SuperHeroeRepo;
 
 @Service
+@Transactional
 public class SuperHeroeService {
 
 	@Autowired
@@ -55,7 +57,7 @@ public class SuperHeroeService {
 		repository.save(newSuperHero);
 	}
 
-	public void delSuperHeroe(int id) {
+	public void delSuperHeroeById(int id) {
 		Optional<SuperHeroe> superHeroe = repository.findById(id);
 
 		if (!superHeroe.isPresent()) {

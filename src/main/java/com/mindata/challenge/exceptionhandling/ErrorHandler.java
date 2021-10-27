@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +26,11 @@ public class ErrorHandler {
 		error.setErrorMessage(e.getMessage());
 		error.setRequestedURI(request.getRequestURI());
 
+		/**
+		 * @todo Sacar printstacktrace
+		 */
+		
+		
 		e.printStackTrace();
 
 		return error;
@@ -31,7 +38,21 @@ public class ErrorHandler {
 
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = { MethodArgumentNotValidException.class, MissingServletRequestParameterException.class,
-			ConstraintViolationException.class, MethodArgumentTypeMismatchException.class })
+			ConstraintViolationException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class })
+	public @ResponseBody ExceptionResponse handMethodNotAllowedException(final Exception e,
+			final HttpServletRequest request) {
+
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage(e.getMessage());
+		error.setRequestedURI(request.getRequestURI());
+
+		e.printStackTrace();
+
+		return error;
+	}
+	
+	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
+	@ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
 	public @ResponseBody ExceptionResponse handMethodArgumentNotValidException(final Exception e,
 			final HttpServletRequest request) {
 
@@ -43,6 +64,7 @@ public class ErrorHandler {
 
 		return error;
 	}
+	
 
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
