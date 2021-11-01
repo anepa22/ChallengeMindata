@@ -8,12 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 
 @ControllerAdvice
 public class ErrorHandler {
@@ -54,6 +58,20 @@ public class ErrorHandler {
 	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
 	public @ResponseBody ExceptionResponse handMethodArgumentNotValidException(final Exception e,
+			final HttpServletRequest request) {
+
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage(e.getMessage());
+		error.setRequestedURI(request.getRequestURI());
+
+		e.printStackTrace();
+
+		return error;
+	}
+	
+	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(value = { AuthJWTException.class, JWTDecodeException.class, SignatureVerificationException.class, MissingRequestHeaderException.class })
+	public @ResponseBody ExceptionResponse handUserNotValidException(final Exception e,
 			final HttpServletRequest request) {
 
 		ExceptionResponse error = new ExceptionResponse();

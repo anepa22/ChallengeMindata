@@ -26,34 +26,36 @@ import com.mindata.challenge.service.SuperHeroeService;
 public class SuperHeroeControler {
 	@Autowired
 	SuperHeroeService service;
-	
+
 	@RequestMapping(path = "/getAllSuperHeroes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "superheroe_cache")
 	public List<SuperHeroe> getAllSuperHeroes() {
 		return service.getAllSuperHeroes();
 	}
-	
+
 	@RequestMapping(path = "/getSuperHeroeById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "superheroe_cache")
 	public SuperHeroe getSuperHeroeById(@RequestParam @NotNull Integer id) {
 		return service.getSuperHeroeById(id);
 	}
-	
+
 	@RequestMapping(path = "/getSuperHeroesByName", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "superheroe_cache")
 	public List<SuperHeroe> getSuperHeroesByName(@Size(min= 3, max = 20) @RequestParam(name = "name", required = true) String name) {
 		return service.getSuperHeroesByName(name.strip());
 	}
-	
+
 	@RequestMapping(path = "/updSuperHeroe", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(value = "superheroe_cache", allEntries = true)
 	public void updSuperHeroe(@Valid @RequestBody SuperHeroe superHeroe) {
 		service.updSuperHeroe(superHeroe);
 	}
-	
+
 	@RequestMapping(path = "/delSuperHeroeById", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(value = "superheroe_cache", allEntries = true)
 	public void delSuperHeroeById(@RequestParam @NotNull Integer id) {
 		service.delSuperHeroeById(id);
 	}
+
+
 }
