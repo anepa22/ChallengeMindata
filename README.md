@@ -1,5 +1,8 @@
 # ChallengeMindata
 
+**Caracteristicas del Proyecto**
+El proyecto usa cache para optimizar las peticiones y gestion centralizada de excepciones.
+
 ## Paso 1
 Clonar el proyecto
 
