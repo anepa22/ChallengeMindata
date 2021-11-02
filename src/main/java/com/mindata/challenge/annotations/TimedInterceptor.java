@@ -13,9 +13,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
-public class LoggerInterceptor implements HandlerInterceptor {
+public class TimedInterceptor implements HandlerInterceptor {
 
-	private Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
+	private final static Logger logger = LoggerFactory.getLogger(TimedInterceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -23,12 +23,19 @@ public class LoggerInterceptor implements HandlerInterceptor {
 		HandlerMethod handlerMethod = (HandlerMethod)handler;
 		Method method = handlerMethod.getMethod();
 		// Obtener la anotación especificada en el método actual
-		LoggerAnnotation loggerAnnotation = method.getAnnotation(LoggerAnnotation.class);
+		PersonalTimed loggerAnnotation = method.getAnnotation(PersonalTimed.class);
 		// Determinar si existe la anotación actual
 		if(loggerAnnotation != null){
 			long startTime = System.currentTimeMillis();
 			request.setAttribute("startTime",startTime);
-			logger.info ("Enter" + method.getName () + "logInit" + startTime);
+			
+			StringBuilder strInit = new StringBuilder();
+			strInit.append("Method: ");
+			strInit.append(method.getName());
+			strInit.append("logInit: ");
+			strInit.append(startTime);
+			
+			logger.info (strInit.toString());
 		}
 		return true;
 	}
@@ -39,24 +46,27 @@ public class LoggerInterceptor implements HandlerInterceptor {
 		HandlerMethod handlerMethod = (HandlerMethod)handler;
 		Method method = handlerMethod.getMethod();
 		// Obtener la anotación especificada en el método actual
-		LoggerAnnotation loggerAnnotation = method.getAnnotation(LoggerAnnotation.class);
+		PersonalTimed loggerAnnotation = method.getAnnotation(PersonalTimed.class);
 		// Determinar si existe la anotación actual
 		if(loggerAnnotation != null){
 			long endTime = System.currentTimeMillis();
 			long startTime = (Long) request.getAttribute("startTime");
 			long periodTime = endTime - startTime;
-			logger.info ("Leave" + method.getName () + "logEnd:" + endTime);
-			logger.info ("in" + method.getName () + "totalTime:" + periodTime);
+			StringBuilder strEnd = new StringBuilder();
+			strEnd.append("Method: ");
+			strEnd.append(method.getName());
+			strEnd.append("logEnd: ");
+			strEnd.append(endTime);
+			
+			logger.info (strEnd.toString());
+			
+			StringBuilder strDif = new StringBuilder();
+			strDif.append("Method: ");
+			strDif.append(method.getName());
+			strDif.append("difTime: ");
+			strDif.append(periodTime);
+			
+			logger.info (strDif.toString());
 		}
-
 	}
-
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("afterCompletion");
-
-	}
-
 }

@@ -37,6 +37,9 @@ public class WebMockTest extends AbsMockTest {
 	private static final String PAHT_URL = "/justicie";
 	private static final String PAHT_URL_AUTH = "/auth";
 
+	private static final String USER = "anepa";
+	private static final String PASS = "1234qwer";
+
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -45,7 +48,7 @@ public class WebMockTest extends AbsMockTest {
 	@BeforeEach
 	public void auth() throws Exception {
 		// Creo Objeto para Request
-		User user = new User("anepa", "sporman");
+		User user = new User(USER, PASS);
 
 		String requestJson = getSuperToJson(user);
 		

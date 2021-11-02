@@ -16,12 +16,12 @@ import com.mindata.challenge.exceptionhandling.AuthJWTException;
 @Component
 public class JwtProvider {
 
-
 	public static final String AUTHORIZATION = "Authorization";
-	@Value("${jwt.expiration}")
-	public static final int TTLTOKEN = 900;
-	@Value("${jwt.secret}")
+	private static final String TKN_NAME = "MinData";
 	private static final String SECRET = "sigkey";
+
+	@Value("${jwt.expiration:900}")
+	private int ttlToken;
 
 
 	public String authUSer(User user) {
@@ -34,9 +34,9 @@ public class JwtProvider {
 		// Creo fecha Actual
 		Date issuedAtDate = new Date();
 		// Fecha de Expiracion
-		Date expirationDate = getExpirationDate(TTLTOKEN);
+		Date expirationDate = getExpirationDate(ttlToken);
 		// Creo Token string
-		String token = createToken("MinData",
+		String token = createToken(TKN_NAME,
 				expirationDate,
 				issuedAtDate,
 				user.getUserName(),
@@ -85,7 +85,7 @@ public class JwtProvider {
 		// Verifico que el tkn sea valido
 		DecodedJWT jwt = validoTokenJWT(getToken(token));
 		// Creo fecha de expiracion
-		Date expirationDate = getExpirationDate(TTLTOKEN);
+		Date expirationDate = getExpirationDate(ttlToken);
 		// Creo Token con fecha de expiracion actualizada.
 		return createToken(jwt.getIssuer(),
 				expirationDate,

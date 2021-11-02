@@ -17,7 +17,7 @@ import com.mindata.challenge.security.JwtTokenFilter;
 
 @Configuration
 @EnableWebSecurity
-public class MainSecurity extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     @Autowired
     JwtEntryPoint jwtEntryPoint;
