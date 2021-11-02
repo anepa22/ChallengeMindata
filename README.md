@@ -28,12 +28,11 @@ http://localhost:8080/swagger-ui.html
 http://localhost:8080/auth/authUser
 **Request**
 Post
+application/json
 {
   "password": "anepa",
   "userName": "1234qwer"
 }
-Parameter content type
-application/json
 
 **Response** (Por cuestiones de practicidad el token esta en el body)
 
