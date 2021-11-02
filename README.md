@@ -1,9 +1,12 @@
 # ChallengeMindata
 
 **Caracteristicas del Proyecto**
-Base de datos H2 en memoria (Los inserts para pruebas se ejecutan al deployar el jar.)
-Cache para optimizar las peticiones. 
-Gestion centralizada de excepciones.
+
+_Base de datos H2 en memoria (Los inserts para pruebas se ejecutan al deployar el jar. automaticamente)
+
+_Cache para optimizar las peticiones. 
+
+_Gestion centralizada de excepciones.
 
 ## Paso 1
 Clonar el proyecto
@@ -28,6 +31,7 @@ http://localhost:8080/swagger-ui.html
 http://localhost:8080/auth/authUser
 **Request**
 Post
+
 application/json
 {
   "password": "anepa",
