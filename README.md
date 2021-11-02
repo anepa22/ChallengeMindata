@@ -1,7 +1,9 @@
 # ChallengeMindata
 
 **Caracteristicas del Proyecto**
-El proyecto usa cache para optimizar las peticiones y gestion centralizada de excepciones.
+Base de datos H2 en memoria (Los inserts para pruebas se ejecutan al deployar el jar.)
+Cache para optimizar las peticiones. 
+Gestion centralizada de excepciones.
 
 ## Paso 1
 Clonar el proyecto
