@@ -21,17 +21,38 @@ http://localhost:8080/swagger-ui.html
 
 ## Paso 4 Autenticacion
 http://localhost:8080/auth/authUser
+**Request**
 Post
-Request
-
 {
-  "password": "string",
-  "userName": "string"
+  "password": "anepa",
+  "userName": "1234qwer"
 }
 Parameter content type
 application/json
 
-Response (Por cuestiones de practicidad el token esta en el body)
+**Response** (Por cuestiones de practicidad el token esta en el body)
 
 Ej:
 Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmVwYSIsImlzcyI6Ik1pbkRhdGEiLCJleHAiOjE2MzU4ODAzOTMsImlhdCI6MTYzNTg3OTQ5M30.E5aexL_jS0-tNskuE8FP9_-Fz4gKujXgCH_pdnS49pg
+
+La autenticacion es un Mock que valida contra un usuario Hardcoded.
+
+## Paso 5
+Ejecutar cualquiera de los metodos siguinetes con el token generado en el paso anterior en el header del request
+**Ej: Authorization = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmVwYSIsImlzcyI6...**
+
+DELETE
+**/justicie/delSuperHeroeById**
+
+GET
+**/justicie/getAllSuperHeroes**
+
+GET
+**/justicie/getSuperHeroeById**
+
+GET
+**/justicie/getSuperHeroesByName**
+
+PUT
+**/justicie/updSuperHeroe**
+
