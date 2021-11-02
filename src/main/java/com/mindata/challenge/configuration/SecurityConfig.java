@@ -37,7 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Disable CORS
         http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/auth/**").permitAll() //permitimos el acceso a /auth a cualquiera
+		.antMatchers("/auth/**",
+				"/v2/api-docs", 
+                "/swagger-resources/**",  
+                "/swagger-ui.html",
+                "/webjars/**",
+                "/actuator/**").permitAll() //permitimos el acceso a /auth a cualquiera
 		.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
 		.and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
