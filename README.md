@@ -15,7 +15,7 @@ Clonar el proyecto
 En la raiz del proyecto ejecutar: **docker build -t img-ojdk11-ch-mindata .**
 
 ## Paso 3
-Ejecutar: **sudo docker run -p 8080:8080 -p 9990:9990 img-ojdk11-ch-mindata**
+Ejecutar: **docker run -p 8080:8080 -p 9990:9990 img-ojdk11-ch-mindata**
 
 ## Servicios Disponibles
 Actuator para monitoreo.
