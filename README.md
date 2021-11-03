@@ -64,3 +64,6 @@ GET
 PUT
 **/justicie/updSuperHeroe**
 
+POST
+**/justicie/addSuperHeroe**
+
