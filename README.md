@@ -34,8 +34,8 @@ Post
 
 application/json
 {
-  "password": "anepa",
-  "userName": "1234qwer"
+  "password": "1234qwer",
+  "userName": "anepa"
 }
 
 **Response** (Por cuestiones de practicidad el token esta en el body)
