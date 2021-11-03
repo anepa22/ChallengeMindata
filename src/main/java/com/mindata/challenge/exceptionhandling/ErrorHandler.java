@@ -58,10 +58,16 @@ public class ErrorHandler {
 	
 	@ResponseStatus(value = HttpStatus.CONFLICT)
 	@ExceptionHandler(value = { DataIntegrityViolationException.class })
-	public void handMethodUniqueException(final Exception e,
+	public @ResponseBody ExceptionResponse handMethodUniqueException(final Exception e,
 			final HttpServletRequest request) {
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage(e.getMessage());
+		error.setRequestedURI(request.getRequestURI());
 
 		logger.error(HttpStatus.CONFLICT.getReasonPhrase(),e);
+		
+		return error;
 	}
 	
 	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
