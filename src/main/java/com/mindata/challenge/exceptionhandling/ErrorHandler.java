@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -53,6 +54,14 @@ public class ErrorHandler {
 		logger.error(HttpStatus.BAD_REQUEST.getReasonPhrase(),e);
 
 		return error;
+	}
+	
+	@ResponseStatus(value = HttpStatus.CONFLICT)
+	@ExceptionHandler(value = { DataIntegrityViolationException.class })
+	public void handMethodUniqueException(final Exception e,
+			final HttpServletRequest request) {
+
+		logger.error(HttpStatus.CONFLICT.getReasonPhrase(),e);
 	}
 	
 	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class SuperHeroeService {
 		if (!superHeroe.isPresent()) {
 			throw new EntityNotFoundException("No existe id para actualizar ese superHeroe.");
 		}
-		
+
 		newSuperHero.setId(superHeroe.get().getId());
 		repository.save(newSuperHero);
 	}
@@ -63,7 +64,13 @@ public class SuperHeroeService {
 		if (!superHeroe.isPresent()) {
 			throw new EntityNotFoundException("No existe id para eliminar ese superHeroe.");
 		}
-		
+
 		repository.delete(superHeroe.get());
+	}
+
+	public void addSuperHeroe(SuperHeroe reqSuperHero) {
+		
+		SuperHeroe newSupHeroe = new SuperHeroe(0,reqSuperHero.getName(),reqSuperHero.getStrength(),reqSuperHero.getFlying(), reqSuperHero.getMoney());
+		repository.save(newSupHeroe);
 	}
 }

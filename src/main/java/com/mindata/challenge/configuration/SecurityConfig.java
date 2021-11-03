@@ -18,35 +18,41 @@ import com.mindata.challenge.security.JwtTokenFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-    @Autowired
-    JwtEntryPoint jwtEntryPoint;
 
-    @Bean
-    public JwtTokenFilter jwtTokenFilter(){
-        return new JwtTokenFilter();
-    }
+	@Autowired
+	JwtEntryPoint jwtEntryPoint;
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public JwtTokenFilter jwtTokenFilter(){
+		return new JwtTokenFilter();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.headers().frameOptions().sameOrigin();
+        http.csrf().ignoringAntMatchers("/console/**");
+        http.authorizeRequests().antMatchers("/console/**").permitAll();
+		
 		// Disable CORS
-        http.cors().and().csrf().disable()
+		http.cors().and().csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/auth/**",
 				"/v2/api-docs", 
-                "/swagger-resources/**",  
-                "/swagger-ui.html",
-                "/webjars/**",
-                "/actuator/**").permitAll() //permitimos el acceso a /auth a cualquiera
+				"/swagger-resources/**",  
+				"/swagger-ui.html",
+				"/webjars/**",
+				"/actuator/**",
+				"/h2-console/**").permitAll() //permitimos el acceso a /auth a cualquiera
+
 		.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
 		.and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }
