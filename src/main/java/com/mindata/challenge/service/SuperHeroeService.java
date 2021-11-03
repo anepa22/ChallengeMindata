@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,9 +54,14 @@ public class SuperHeroeService {
 		if (!superHeroe.isPresent()) {
 			throw new EntityNotFoundException("No existe id para actualizar ese superHeroe.");
 		}
-		
-		newSuperHero.setId(superHeroe.get().getId());
-		repository.save(newSuperHero);
+
+		try {
+			newSuperHero.setId(superHeroe.get().getId());
+			repository.save(newSuperHero);
+		}
+		catch (ConstraintViolationException e) {
+			throw new DataIntegrityViolationException("No puede existir un Superheroe con el mismo nombre.");
+		}
 	}
 
 	public void delSuperHeroeById(int id) {
@@ -63,7 +70,18 @@ public class SuperHeroeService {
 		if (!superHeroe.isPresent()) {
 			throw new EntityNotFoundException("No existe id para eliminar ese superHeroe.");
 		}
-		
+
 		repository.delete(superHeroe.get());
+	}
+
+	public void addSuperHeroe(SuperHeroe reqSuperHero) {
+
+		try {
+			SuperHeroe newSupHeroe = new SuperHeroe(0,reqSuperHero.getName(),reqSuperHero.getStrength(),reqSuperHero.getFlying(), reqSuperHero.getMoney());
+			repository.save(newSupHeroe);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("No puede existir un Superheroe con el mismo nombre.");
+		}
 	}
 }

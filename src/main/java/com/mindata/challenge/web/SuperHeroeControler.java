@@ -28,6 +28,13 @@ public class SuperHeroeControler {
 	
 	@Autowired
 	SuperHeroeService service;
+	
+	@PersonalTimed
+	@RequestMapping(path = "/addSuperHeroe", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@CacheEvict(value = "superheroe_cache", allEntries = true)
+	public void addSuperHeroe(@Valid @RequestBody SuperHeroe superHeroe) {
+		service.addSuperHeroe(superHeroe);
+	}
 
 	@RequestMapping(path = "/getAllSuperHeroes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "superheroe_cache")
